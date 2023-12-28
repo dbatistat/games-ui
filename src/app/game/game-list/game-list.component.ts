@@ -10,6 +10,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {CATEGORIES, DEFAULT_CATEGORY, DEFAULT_ORDER, DEFAULT_PLATFORM, ORDER_BY, PLATFORMS} from "../game.constants";
 import {LoaderComponent} from "../../shared/loader/loader.component";
 import {GameDetailComponent} from "../game-detail/game-detail.component";
+import {filter, firstValueFrom, map, Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-game-list',
@@ -35,6 +36,7 @@ export class GameListComponent implements OnInit {
   categories: Filter<GameCategory>[] = CATEGORIES;
   orders: Filter<GameOrder>[] = ORDER_BY;
   currentPage = 1;
+  searchGame: string = '';
   selectedPlatform: GamePlatform = DEFAULT_PLATFORM.code;
   selectedCategory: GameCategory = DEFAULT_CATEGORY.code;
   selectedOrder: GameOrder = DEFAULT_ORDER.code;
@@ -53,7 +55,7 @@ export class GameListComponent implements OnInit {
 
   async applyFilters(): Promise<void> {
     this.loading = true;
-    this.games = await this.gameService.getGames(this.filter);
+    this.games = await this.gameService.getGames(this.filter).then(games => firstValueFrom(this.filterGamesByName(games, this.searchGame)));
     this.gameDetail = null;
     this.loading = false;
   }
@@ -74,10 +76,19 @@ export class GameListComponent implements OnInit {
   }
 
   async selectGame(game: Game): Promise<void> {
-    this.gameDetail = await this.gameService.getGameById(game.id)
+    this.loading = true;
+    this.gameDetail = await this.gameService.getGameById(game.id);
+    this.loading = false;
   }
 
   onGoBack() {
     this.gameDetail = null;
   }
+
+  filterGamesByName(games: Game[], name: string): Observable<any[]> {
+    return of(games).pipe(
+      map(games => games.filter(game => game.title.toLowerCase().includes(name.toLowerCase())))
+    );
+  }
+
 }
