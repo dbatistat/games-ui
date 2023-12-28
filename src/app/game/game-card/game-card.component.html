@@ -1,0 +1,24 @@
+<div *ngIf="game"
+     class="max-w-sm rounded overflow-hidden shadow-lg m-4 bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-200">
+  <img class="w-full" [src]="game.thumbnail" alt="Game Thumbnail">
+  <div class="px-6 py-4">
+    <div class="font-bold text-xl mb-2">{{ game.title }}</div>
+    <p class="text-gray-400 text-base overflow-hidden overflow-ellipsis">{{ game.short_description }}</p>
+  </div>
+  <div class="px-6 py-4">
+
+    <div
+      class="inline-block bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-white dark:bg-gray-600 dark:text-gray-300 mr-2 mb-2">
+      {{ game.genre }}
+    </div>
+
+    <div
+      class="inline-block bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-white dark:bg-gray-600 dark:text-gray-300">
+      Release Date: {{ game.release_date }}
+    </div>
+  </div>
+  <div class="px-6 py-4">
+    <button (click)="gameSelected()" class="inline-block bg-blue-500 text-white px-4 py-2 rounded dark:bg-blue-700">Show
+      Game</button>
+  </div>
+</div>

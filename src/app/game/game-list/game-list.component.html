@@ -1,0 +1,57 @@
+<div class="container mx-auto mt-16 flex justify-center items-center flex-col">
+  <div class="flex flex-col md:flex-row justify-center items-center gap-1 md:gap-5 w-full md:w-10/12 lg:w-7/12 pl-5 pr-5">
+    <div class="mb-1 w-full md:w-6/12">
+      <label class="block text-sm font-medium text-gray-300">Platform:</label>
+      <select class="mt-1 p-2 border rounded-md w-full" [(ngModel)]="selectedPlatform" (change)="onPlatformChange()">
+        <option *ngFor="let platform of platforms" [value]="platform.code">{{ platform.name }}</option>
+      </select>
+    </div>
+
+    <div class="mb-1 md:mb-0 w-full md:w-6/12">
+      <label class="block text-sm font-medium text-gray-300">Category:</label>
+      <select class="mt-1 p-2 border rounded-md w-full" [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+        <option *ngFor="let category of categories" [value]="category.code">{{ category.name }}</option>
+      </select>
+    </div>
+
+    <div class="mb-1 md:mb-0 w-full md:w-6/12">
+      <label class="block text-sm font-medium text-gray-300">Order By:</label>
+      <select class="mt-1 p-2 border rounded-md w-full" [(ngModel)]="selectedOrder" (change)="onOrderByChange()">
+        <option *ngFor="let order of orders" [value]="order.code">{{ order.name }}</option>
+      </select>
+    </div>
+
+    <div class="mt-5 w-full md:w-6/12">
+      <button class="bg-blue-500 text-white py-2 px-4 rounded-md w-full" (click)="applyFilters()">Apply Filters</button>
+    </div>
+
+  </div>
+
+
+  <div *ngIf="games">
+    @if (loading) {
+      <div class="mt-10">
+        <app-loader></app-loader>
+      </div>
+    } @else {
+      @if (gameDetail) {
+        <div class="mt-5"><app-game-detail [game]="gameDetail" (goBack)="onGoBack()"></app-game-detail></div>
+
+      } @else {
+        <pagination-controls
+          (pageChange)="currentPage = $event"
+          class="mt-4 flex justify-center dark:bg-gray-800"
+          previousLabel="Previous"
+          nextLabel="Next"
+          [responsive]="true"
+        >
+        </pagination-controls>
+        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div *ngFor="let game of games | paginate: { itemsPerPage: 6, currentPage: currentPage }">
+            <app-game-card [game]="game" (selected)="selectGame($event)"></app-game-card>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

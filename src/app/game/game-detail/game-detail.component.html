@@ -1,0 +1,58 @@
+<div class="flex justify-center">
+  <div *ngIf="game" class="sm:w-full lg:w-8/12 bg-gradient-to-br bg-gray-800 text-white dark:bg-gray-900 dark:text-gray-200">
+    <div class="container mx-auto p-8">
+      <a class="text-1xl font-extrabold mb-4" href="#" (click)="onGoBack()">< Volver</a>
+
+      <img class="object-fill h-48 w-full mb-8 mt-5 rounded-lg shadow-lg" src="{{ game.thumbnail }}"
+           alt="{{ game.title }}">
+
+      <h1 class="text-5xl font-extrabold mb-4">{{ game.title }}</h1>
+      <p class="text-lg">{{ game.description }}</p>
+
+      <div class="mt-8">
+        <a href="{{ game.game_url }}" target="_blank"
+           class="bg-blue-500 text-white px-6 py-3 rounded-full hover:bg-blue-600 transition duration-300 ease-in-out">Play
+          Now</a>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-3xl font-bold mb-4">Game Details</h2>
+        <ul class="list-none list-inside">
+          <li><strong>Status:</strong> {{ game.status }}</li>
+          <li><strong>Genre:</strong> {{ game.genre }}</li>
+          <li><strong>Platform:</strong> {{ game.platform }}</li>
+          <li><strong>Publisher:</strong> {{ game.publisher }}</li>
+          <li><strong>Developer:</strong> {{ game.developer }}</li>
+          <li><strong>Release Date:</strong> {{ game.release_date }}</li>
+          <li><strong>FreeToGame Profile: </strong> <a href="{{ game.freetogame_profile_url }}" target="_blank"
+                                                       class="text-blue-400 hover:underline">{{ game.freetogame_profile_url }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-3xl font-bold mb-4">Minimum System Requirements</h2>
+        <ul class="list-none list-inside">
+          <li><strong>OS:</strong> {{ game.minimum_system_requirements.os }}</li>
+          <li><strong>Processor:</strong> {{ game.minimum_system_requirements.processor }}</li>
+          <li><strong>Memory:</strong> {{ game.minimum_system_requirements.memory }}</li>
+          <li><strong>Graphics:</strong> {{ game.minimum_system_requirements.graphics }}</li>
+          <li><strong>Storage:</strong> {{ game.minimum_system_requirements.storage }}</li>
+        </ul>
+      </div>
+
+      <div class="mt-12">
+        <h2 class="text-3xl font-bold mb-4">Screenshots</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          @for (screenshot of game.screenshots; track screenshot) {
+            <div class="rounded-lg shadow-lg">
+              <img [src]="screenshot.image" loading="lazy" alt="Screenshot {{ screenshot.id }}"
+                   class="w-full h-48 object-cover">
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
