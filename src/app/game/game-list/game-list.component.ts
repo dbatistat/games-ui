@@ -10,7 +10,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {CATEGORIES, DEFAULT_CATEGORY, DEFAULT_ORDER, DEFAULT_PLATFORM, ORDER_BY, PLATFORMS} from "../game.constants";
 import {LoaderComponent} from "../../shared/loader/loader.component";
 import {GameDetailComponent} from "../game-detail/game-detail.component";
-import {filter, firstValueFrom, map, Observable, of} from "rxjs";
+import {firstValueFrom, map, Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-game-list',
@@ -90,5 +90,4 @@ export class GameListComponent implements OnInit {
       map(games => games.filter(game => game.title.toLowerCase().includes(name.toLowerCase())))
     );
   }
-
 }
